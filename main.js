@@ -1,3 +1,25 @@
+// IMAGE LOADER
+const imageUrls = [
+  "img/c0.png",
+  "img/c1.png",
+  "img/c2.png",
+  "img/c3.png",
+  "img/c4.png",
+  "img/c5.png",
+  "img/c6.png",
+  "img/c7.png",
+  "img/c8.png",
+  "img/cover.png",
+];
+
+const preloadedImagesMap = {}; // <url, Image>
+
+imageUrls.forEach((url) => {
+  const img = new Image();
+  img.src = url;
+  preloadedImagesMap[url] = img;
+});
+
 //GLOBAL VARIABLES
 const cardsDivs = document.querySelectorAll(".card"); //cards div's
 const cardsDeal = []; //drawn array of cards
@@ -43,8 +65,9 @@ const hide2Cards = (nr1, nr2) => {
 };
 
 const restore2Cards = (nr1, nr2) => {
-  cardsDivs[nr1].style.backgroundImage = "url(img/cover.png)";
-  cardsDivs[nr2].style.backgroundImage = "url(img/cover.png)";
+  const coverImg = preloadedImagesMap["img/cover.png"];
+  cardsDivs[nr1].style.backgroundImage = `url(${coverImg.src})`;
+  cardsDivs[nr2].style.backgroundImage = `url(${coverImg.src})`;
   cardsDivs[nr1].classList.add("card");
   cardsDivs[nr2].classList.add("card");
   cardsDivs[nr1].classList.remove("cardA");
@@ -63,9 +86,9 @@ const revealCard = function (nr) {
     if (firstCardNr === nr) return; //prevents from double click on same card
 
     //getting path of clicked card
-    const imgPath = `url("img/${cardsDeal[nr]}")`;
+    const imgObj = preloadedImagesMap[`img/${cardsDeal[nr]}`];
 
-    cardsDivs[nr].style.backgroundImage = imgPath;
+    cardsDivs[nr].style.backgroundImage = `url(${imgObj.src})`;
     cardsDivs[nr].classList.add("cardA");
     cardsDivs[nr].classList.remove("card");
 
